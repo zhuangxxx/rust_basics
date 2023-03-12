@@ -59,10 +59,69 @@ Product <|.. ConcreteProductB
 
 - 可以避免创建者和具体产品之间的紧密耦合。
 
-- ️️️*单一职责原则*。 你可以将产品创建代码放在程序的单一位置， 从而使得代码更容易维护。
+- ️*单一职责原则*。 你可以将产品创建代码放在程序的单一位置， 从而使得代码更容易维护。
 
 - *开闭原则*。 无需更改现有客户端代码， 你就可以在程序中引入新的产品类型。
 
 #### 局限
 
 - 应用工厂方法模式需要引入许多新的子类， 代码可能会因此变得更复杂。 最好的情况是将该模式引入创建者类的现有层次结构中。
+
+### 抽象工厂 (Abstract Factory)
+
+**抽象工厂模式**是一种创建型设计模式， 它能创建一系列相关的对象， 而无需指定其具体类。
+
+#### 结构
+
+```plantuml
+@startuml
+interface AbstractFactory {
+    +create_product_a(): ProductA
+    +create_product_b(): ProductB
+}
+class ConcreteFactory1 {
+    +create_product_a(): ProductA
+    +create_product_b(): ProductB
+}
+class ConcreteFactory2 {
+    +create_product_a(): ProductA
+    +create_product_b(): ProductB
+}
+class Client {
+    -factory:AbstractFactory
+    +constructor(factory:AbstractFactory)
+    +some_operation()
+}
+AbstractFactory <|.. ConcreteFactory1
+ConcreteFactory1 ..> ConcreteProductA1
+ConcreteFactory1 ..> ConcreteProductB1
+AbstractFactory <|.. ConcreteFactory2
+ConcreteFactory2 ..> ConcreteProductA2
+ConcreteFactory2 ..> ConcreteProductB2
+AbstractProductA <|-- ConcreteProductA1
+AbstractProductA <|-- ConcreteProductA2
+AbstractProductB <|-- ConcreteProductB1
+AbstractProductB <|-- ConcreteProductB2
+AbstractFactory <-- Client
+@enduml
+```
+
+#### 应用场景
+
+- 如果代码需要与多个不同系列的相关产品交互， 但是由于无法提前获取相关信息， 或者出于对未来扩展性的考虑， 你不希望代码基于产品的具体类进行构建， 在这种情况下， 你可以使用抽象工厂。
+
+- 如果你有一个基于一组**抽象方法**的类， 且其主要功能因此变得不明确， 那么在这种情况下可以考虑使用抽象工厂模式。
+
+#### 解决问题
+
+- 你可以确保同一工厂生成的产品相互匹配。
+
+- 你可以避免客户端和具体产品代码的耦合。
+
+- *单一职责原则*。 你可以将产品生成代码抽取到同一位置， 使得代码易于维护。
+
+- *开闭原则*。 向应用程序中引入新产品变体时， 你无需修改客户端代码。
+
+#### 局限
+
+- 由于采用该模式需要向应用中引入众多接口和类， 代码可能会比之前更加复杂。

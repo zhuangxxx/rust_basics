@@ -74,15 +74,11 @@ impl Application {
     pub fn new(platform: Platform) -> Self {
         Self {
             platform,
-            dialog: Self::new_dialog(platform),
-        }
-    }
-
-    fn new_dialog(platform: Platform) -> Box<dyn Dialog> {
-        if platform == Platform::Windows {
-            Box::new(WindowsDialog::default())
-        } else {
-            Box::new(HtmlDialog::default())
+            dialog: if platform == Platform::Windows {
+                Box::new(WindowsDialog::default())
+            } else {
+                Box::new(HtmlDialog::default())
+            },
         }
     }
 
