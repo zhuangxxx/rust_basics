@@ -45,7 +45,7 @@ struct WindowsDialog;
 
 impl Dialog for WindowsDialog {
     fn create_button(&self) -> Box<dyn Button> {
-        Box::new(WindowsButton::default())
+        Box::<WindowsButton>::default()
     }
 }
 
@@ -54,7 +54,7 @@ struct HtmlDialog;
 
 impl Dialog for HtmlDialog {
     fn create_button(&self) -> Box<dyn Button> {
-        Box::new(HtmlButton::default())
+        Box::<HtmlButton>::default()
     }
 }
 
@@ -75,9 +75,9 @@ impl Application {
         Self {
             platform,
             dialog: if platform == Platform::Windows {
-                Box::new(WindowsDialog::default())
+                Box::<WindowsDialog>::default()
             } else {
-                Box::new(HtmlDialog::default())
+                Box::<HtmlDialog>::default()
             },
         }
     }

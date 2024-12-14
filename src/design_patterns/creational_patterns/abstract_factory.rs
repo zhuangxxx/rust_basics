@@ -88,10 +88,10 @@ struct WinFactory;
 
 impl GuiFactory for WinFactory {
     fn create_button(&self) -> Box<dyn Button> {
-        Box::new(WinButton::default())
+        Box::<WinButton>::default()
     }
     fn create_checkbox(&self) -> Box<dyn Checkbox> {
-        Box::new(WinCheckbox::default())
+        Box::<WinCheckbox>::default()
     }
 }
 
@@ -100,10 +100,10 @@ struct MacFactory;
 
 impl GuiFactory for MacFactory {
     fn create_button(&self) -> Box<dyn Button> {
-        Box::new(MacButton::default())
+        Box::<MacButton>::default()
     }
     fn create_checkbox(&self) -> Box<dyn Checkbox> {
-        Box::new(MacCheckbox::default())
+        Box::<MacCheckbox>::default()
     }
 }
 
@@ -120,9 +120,9 @@ impl Application {
         Self {
             system,
             gui_factory: if system == System::Mac {
-                Box::new(MacFactory::default())
+                Box::<MacFactory>::default()
             } else {
-                Box::new(WinFactory::default())
+                Box::<WinFactory>::default()
             },
             button: None,
             checkbox: None,
